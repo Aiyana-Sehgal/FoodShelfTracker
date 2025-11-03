@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Food Shelf Scanner</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_scan">Scan/Add</string>
+    <string name="nav_recipes">Recipes</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Home Screen -->
+    <string name="pantry_title">Pantry</string>
+    <string name="freezer_title">Freezer</string>
+    <string name="quick_add">Quick Add</string>
+    <string name="scan_barcode">Scan Barcode</string>
+    <string name="manual_entry">Manual Entry</string>
+    <string name="consume">Consume</string>
+    <string name="discard">Discard</string>
+
+    <!-- Recipe Screen -->
+    <string name="smart_suggestions">Smart Suggestions</string>
+    <string name="uses_items_expiry">Uses items nearing expiry</string>
+    <string name="add_meal_plan">Add to Meal Plan</string>
+    <string name="create_shopping_list">Create Shopping List</string>
+    <string name="uses">Uses:</string>
+
+    <!-- Recipe Detail -->
+    <string name="start_cooking">Start Cooking</string>
+    <string name="save_recipe">Save</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="steps">Steps</string>
+    <string name="instructions">Instructions</string>
+    <string name="serves">Serves %1$d</string>
+
+    <!-- Add Item -->
+    <string name="add_item_title">Add New Item</string>
+    <string name="item_name">Item Name</string>
+    <string name="category">Category</string>
+    <string name="brand">Brand</string>
+    <string name="quantity">Quantity</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="location">Location</string>
+    <string name="save">Save</string>
+</resources>
