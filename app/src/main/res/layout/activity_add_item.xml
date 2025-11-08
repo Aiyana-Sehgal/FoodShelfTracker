@@ -27,20 +27,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Scan Barcode -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnScanBarcode"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:text="Scan Barcode"
-                android:textColor="@color/primary"
-                app:icon="@android:drawable/ic_menu_camera"
-                app:iconTint="@color/primary"
-                app:strokeColor="@color/primary"
-                app:strokeWidth="1dp" />
-
             <!-- Item Name -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -55,8 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords"
-                    android:textColor="@color/text_primary"
-                    android:hint="e.g. Bread, Cheese" />
+                    android:textColor="@color/text_primary" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,7 +59,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:hint="Select Category"
                     android:textColor="@color/text_primary" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -93,8 +77,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords"
-                    android:textColor="@color/text_primary"
-                    android:hint="e.g. Amul, Britannia" />
+                    android:textColor="@color/text_primary" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,7 +95,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number|text"
-                    android:hint="e.g. 500g, 1L, 2 packs"
                     android:textColor="@color/text_primary" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -132,7 +114,6 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="false"
-                    android:hint="Select date"
                     android:textColor="@color/text_primary" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -151,7 +132,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:hint="e.g. Fridge, Pantry"
                     android:textColor="@color/text_primary" />
 
             </com.google.android.material.textfield.TextInputLayout>

@@ -1,6 +1,8 @@
 package com.example.foodshelfscanner.adapters;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +17,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodshelfscanner.R;
 import com.example.foodshelfscanner.models.FoodItem;
+import com.example.foodshelfscanner.utils.DbHelper;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodViewHolder> {
 
-    private Context context;
-    private List<FoodItem> foodItems;
+    private final Context context;
+    private final List<FoodItem> foodItems;
+    private final OnItemDeletedListener listener;
+    private final DbHelper dbHelper;
+    private final Executor executor = Executors.newSingleThreadExecutor();
+    private final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
-    public FoodItemAdapter(Context context, List<FoodItem> foodItems) {
+    public interface OnItemDeletedListener {
+        void onItemDeleted();
+    }
+
+    public FoodItemAdapter(Context context, List<FoodItem> foodItems, OnItemDeletedListener listener) {
         this.context = context;
         this.foodItems = foodItems;
+        this.listener = listener;
+        this.dbHelper = new DbHelper();
     }
 
     @NonNull
@@ -45,46 +60,30 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodVi
         holder.tvBrandQuantity.setText("Brand: " + item.getBrand() + " • " + item.getQuantity());
         holder.tvShelfLife.setText(item.getShelfLifeDays() + "d");
         holder.progressShelfLife.setProgress(item.getProgressPercentage());
-
-        // Handle image resource safely with category-specific icons
-        int imageResource = item.getImageResource();
-        if (imageResource > 0) {
-            try {
-                holder.ivFoodAvatar.setImageResource(imageResource);
-            } catch (Exception e) {
-                // If the resource is invalid, use category-specific default
-                holder.ivFoodAvatar.setImageResource(getCategoryIcon(item.getType()));
-            }
-        } else {
-            // Use category-specific icon when no image resource is provided
-            holder.ivFoodAvatar.setImageResource(getCategoryIcon(item.getType()));
-        }
+        holder.ivFoodAvatar.setImageResource(android.R.drawable.ic_menu_gallery); // Placeholder image
 
         // Button listeners
-        holder.btnConsume.setOnClickListener(v ->
-                Toast.makeText(context, "Consumed: " + item.getName(), Toast.LENGTH_SHORT).show()
-        );
-
-        holder.btnDiscard.setOnClickListener(v ->
-                Toast.makeText(context, "Discarded: " + item.getName(), Toast.LENGTH_SHORT).show()
-        );
+        holder.btnConsume.setOnClickListener(v -> deleteItem(item, position));
+        holder.btnDiscard.setOnClickListener(v -> deleteItem(item, position));
     }
 
-    private int getCategoryIcon(String category) {
-        if (category == null) return R.drawable.ic_food_default;
-
-        String categoryLower = category.toLowerCase();
-        if (categoryLower.contains("fruit")) {
-            return R.drawable.ic_fruit;
-        } else if (categoryLower.contains("vegetable")) {
-            return R.drawable.ic_vegetable;
-        } else if (categoryLower.contains("meat") || categoryLower.contains("seafood")) {
-            return R.drawable.ic_meat;
-        } else if (categoryLower.contains("dairy")) {
-            return R.drawable.ic_dairy;
-        } else {
-            return R.drawable.ic_food_default;
-        }
+    private void deleteItem(FoodItem item, int position) {
+        executor.execute(() -> {
+            boolean success = dbHelper.deleteItem(item.getId());
+            mainThreadHandler.post(() -> {
+                if (success) {
+                    foodItems.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, foodItems.size());
+                    Toast.makeText(context, "Removed: " + item.getName(), Toast.LENGTH_SHORT).show();
+                    if (listener != null) {
+                        listener.onItemDeleted();
+                    }
+                } else {
+                    Toast.makeText(context, "Failed to remove item", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
     }
 
     @Override

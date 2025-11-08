@@ -1,6 +1,7 @@
 package com.example.foodshelfscanner.models;
 
 public class FoodItem {
+    private int id;
     private String name;
     private String type;
     private String brand;
@@ -11,9 +12,10 @@ public class FoodItem {
     private int totalDays;
     private int imageResource;
 
-    public FoodItem(String name, String type, String brand, String quantity,
+    public FoodItem(int id, String name, String type, String brand, String quantity,
                     String location, String addedTime, int shelfLifeDays,
                     int totalDays, int imageResource) {
+        this.id = id;
         this.name = name;
         this.type = type;
         this.brand = brand;
@@ -26,6 +28,7 @@ public class FoodItem {
     }
 
     // Getters
+    public int getId() { return id; }
     public String getName() { return name; }
     public String getType() { return type; }
     public String getBrand() { return brand; }
@@ -37,6 +40,7 @@ public class FoodItem {
     public int getImageResource() { return imageResource; }
 
     public int getProgressPercentage() {
+        if (totalDays == 0) return 0;
         return (int) ((float) shelfLifeDays / totalDays * 100);
     }
 }

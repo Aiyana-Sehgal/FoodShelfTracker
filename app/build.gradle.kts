@@ -6,7 +6,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
-// Read the local.properties file to access the API key
+// Read the local.properties file to access the API keys
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
@@ -33,8 +33,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // Make the API key available in the BuildConfig
-        val geminiApiKey = localProperties.getProperty("GEMINI_API_KEY")?.trim('"')
-        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
+        val spoonacularApiKey = localProperties.getProperty("SPOONACULAR_API_KEY")?.trim('"')
+        buildConfigField("String", "SPOONACULAR_API_KEY", "\"$spoonacularApiKey\"")
     }
 
     buildTypes {
@@ -88,20 +88,16 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.cardview:cardview:1.0.0")
 
-    // --- Optional: Barcode scanning ---
-    implementation("com.google.zxing:core:3.5.2")
-    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
-
-    // --- Gemini AI ---
-    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
-    implementation("com.google.guava:guava:33.0.0-android")
+    // --- Networking (Retrofit & Gson) ---
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // --- Jetpack Compose ---
     implementation(platform("androidx.compose:compose-bom:2023.08.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3") // Corrected typo here
+    implementation("androidx.compose.material3:material3")
     implementation("androidx.activity:activity-compose:1.8.0")
 
     // --- Testing ---

@@ -46,19 +46,20 @@ public class RecipesActivity extends AppCompatActivity {
         recyclerRecipes.setLayoutManager(new LinearLayoutManager(this));
 
         // Get all items from pantry and freezer to suggest recipes
-        List<FoodItem> allItems = new ArrayList<>();
-        dataProvider.getPantryItems(items -> {
-            allItems.addAll(items);
+        dataProvider.getPantryItems(pantryItems -> {
+            List<FoodItem> allItems = new ArrayList<>(pantryItems);
             dataProvider.getFreezerItems(freezerItems -> {
                 allItems.addAll(freezerItems);
                 if (allItems.isEmpty()) {
-                    Toast.makeText(this, "No items to suggest recipes from", Toast.LENGTH_LONG).show();
+                    runOnUiThread(() -> Toast.makeText(this, "No items to suggest recipes from", Toast.LENGTH_LONG).show());
                     return;
                 }
-                // Get recipe suggestions from Gemini
+                // Get recipe suggestions from Spoonacular
                 dataProvider.getRecipeSuggestions(allItems, recipes -> {
-                    recipeAdapter = new RecipeAdapter(this, recipes);
-                    recyclerRecipes.setAdapter(recipeAdapter);
+                    runOnUiThread(() -> {
+                        recipeAdapter = new RecipeAdapter(this, recipes);
+                        recyclerRecipes.setAdapter(recipeAdapter);
+                    });
                 });
             });
         });
@@ -73,9 +74,6 @@ public class RecipesActivity extends AppCompatActivity {
             if (itemId == R.id.nav_home) {
                 startActivity(new Intent(RecipesActivity.this, MainActivity.class));
                 finish();
-                return true;
-            } else if (itemId == R.id.nav_scan) {
-                startActivity(new Intent(RecipesActivity.this, AddItemActivity.class));
                 return true;
             } else if (itemId == R.id.nav_recipes) {
                 return true;

@@ -17,12 +17,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FoodItemAdapter.OnItemDeletedListener {
 
     private RecyclerView recyclerPantry, recyclerFreezer;
     private FoodItemAdapter pantryAdapter, freezerAdapter;
     private BottomNavigationView bottomNavigation;
-    private Button btnScanBarcode, btnManualEntry;
+    private Button btnManualEntry;
     private DataProvider dataProvider;
 
     @Override
@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerPantry = findViewById(R.id.recyclerPantry);
         recyclerFreezer = findViewById(R.id.recyclerFreezer);
         bottomNavigation = findViewById(R.id.bottomNavigation);
-        btnScanBarcode = findViewById(R.id.btnScanBarcode);
         btnManualEntry = findViewById(R.id.btnManualEntry);
     }
 
@@ -63,15 +62,20 @@ public class MainActivity extends AppCompatActivity {
     private void refreshData() {
         // Pantry RecyclerView
         dataProvider.getPantryItems(items -> {
-            pantryAdapter = new FoodItemAdapter(this, items);
+            pantryAdapter = new FoodItemAdapter(this, items, this);
             recyclerPantry.setAdapter(pantryAdapter);
         });
 
         // Freezer RecyclerView
         dataProvider.getFreezerItems(items -> {
-            freezerAdapter = new FoodItemAdapter(this, items);
+            freezerAdapter = new FoodItemAdapter(this, items, this);
             recyclerFreezer.setAdapter(freezerAdapter);
         });
+    }
+
+    @Override
+    public void onItemDeleted() {
+        refreshData();
     }
 
     private void setupBottomNavigation() {
@@ -81,9 +85,6 @@ public class MainActivity extends AppCompatActivity {
             int itemId = item.getItemId();
 
             if (itemId == R.id.nav_home) {
-                return true;
-            } else if (itemId == R.id.nav_scan) {
-                startActivity(new Intent(MainActivity.this, AddItemActivity.class));
                 return true;
             } else if (itemId == R.id.nav_recipes) {
                 startActivity(new Intent(MainActivity.this, RecipesActivity.class));
@@ -97,11 +98,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupButtons() {
-        btnScanBarcode.setOnClickListener(v -> {
-            Toast.makeText(this, "Opening Barcode Scanner...", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, AddItemActivity.class));
-        });
-
         btnManualEntry.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, AddItemActivity.class));
         });

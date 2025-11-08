@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodshelfscanner.adapters.StepAdapter;
 import com.example.foodshelfscanner.models.Recipe;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -69,32 +70,37 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
         // Add tags
         chipGroupTags.removeAllViews();
-        for (String tag : recipe.getTags()) {
-            Chip chip = new Chip(this);
-            chip.setText(tag);
-            chip.setChipBackgroundColorResource(R.color.background);
-            chipGroupTags.addView(chip);
+        if (recipe.getTags() != null) {
+            for (String tag : recipe.getTags()) {
+                Chip chip = new Chip(this);
+                chip.setText(tag);
+                chip.setChipBackgroundColorResource(R.color.background);
+                chipGroupTags.addView(chip);
+            }
         }
 
         // Add ingredients
         chipGroupIngredients.removeAllViews();
-        for (String ingredient : recipe.getIngredients()) {
-            Chip chip = new Chip(this);
-            chip.setText(ingredient);
-            chip.setChipBackgroundColorResource(R.color.primary);
-            chip.setTextColor(getResources().getColor(android.R.color.white));
-            chipGroupIngredients.addView(chip);
+        if (recipe.getIngredients() != null) {
+            for (String ingredient : recipe.getIngredients()) {
+                Chip chip = new Chip(this);
+                chip.setText(ingredient);
+                chip.setChipBackgroundColorResource(R.color.primary);
+                chip.setTextColor(getResources().getColor(android.R.color.white));
+                chipGroupIngredients.addView(chip);
+            }
         }
 
-        // Setup steps (using simple TextView adapter for demonstration)
+        // Setup steps
         setupStepsRecyclerView();
     }
 
     private void setupStepsRecyclerView() {
-        // For simplicity, create a basic adapter or add TextViews programmatically
-        // In production, create a StepAdapter similar to other adapters
         recyclerSteps.setLayoutManager(new LinearLayoutManager(this));
-        // TODO: Implement StepAdapter
+        if (recipe.getSteps() != null) {
+            StepAdapter stepAdapter = new StepAdapter(this, recipe.getSteps());
+            recyclerSteps.setAdapter(stepAdapter);
+        }
     }
 
     private void setupToolbar() {

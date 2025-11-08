@@ -48,11 +48,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         // Add ingredient chips
         holder.chipGroupIngredients.removeAllViews();
-        for (String ingredient : recipe.getIngredients()) {
-            Chip chip = new Chip(context);
-            chip.setText(ingredient);
-            chip.setChipBackgroundColorResource(R.color.accent);
-            holder.chipGroupIngredients.addView(chip);
+        if (recipe.getIngredients() != null) {
+            for (String ingredient : recipe.getIngredients()) {
+                Chip chip = new Chip(context);
+                chip.setText(ingredient);
+                chip.setChipBackgroundColorResource(R.color.accent);
+                holder.chipGroupIngredients.addView(chip);
+            }
         }
 
         // Click listener for recipe card

@@ -72,41 +72,18 @@
                     android:textSize="@dimen/text_size_title"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnManualEntry"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_medium"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:minHeight="48dp"
+                    android:text="@string/manual_entry"
+                    android:textColor="@color/primary"
+                    app:icon="@android:drawable/ic_menu_edit"
+                    app:iconTint="@color/primary"
+                    app:strokeColor="@color/primary" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnScanBarcode"
-                        style="@style/Widget.MaterialComponents.Button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/spacing_small"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/primary"
-                        android:minHeight="48dp"
-                        android:text="@string/scan_barcode"
-                        android:textColor="@android:color/white"
-                        app:icon="@android:drawable/ic_menu_camera"
-                        app:iconTint="@android:color/white" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnManualEntry"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_small"
-                        android:layout_weight="1"
-                        android:minHeight="48dp"
-                        android:text="@string/manual_entry"
-                        android:textColor="@color/primary"
-                        app:icon="@android:drawable/ic_menu_edit"
-                        app:iconTint="@color/primary"
-                        app:strokeColor="@color/primary" />
-                </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
